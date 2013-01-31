@@ -9,12 +9,9 @@ type DAWG struct {
 
 // A node is a recursive structure that represents a node of a DAWG.
 type node struct {
-	children map[nodeValue]*node
+	children map[rune]*node
 	eow      bool
 }
-
-// A nodeValue is the type stored in the value field of each node.
-type nodeValue rune
 
 // New creates a new DAWG from a vocabulary.
 func New(vocabulary []string) *DAWG {
@@ -28,9 +25,9 @@ func New(vocabulary []string) *DAWG {
 // Insert a word into the DAWG.
 func (d *DAWG) Insert(word string) {
 	current := d.root
-	for _, k := range []nodeValue(word) {
+	for _, k := range word {
 		if current.children == nil {
-			current.children = make(map[nodeValue]*node)
+			current.children = make(map[rune]*node)
 		}
 		if next, ok := current.children[k]; ok {
 			current = next
@@ -46,7 +43,7 @@ func (d *DAWG) Insert(word string) {
 // Contains return true when the word is in the DAWG.
 func (d *DAWG) Contains(word string) bool {
 	current := d.root
-	for _, k := range []nodeValue(word) {
+	for _, k := range word {
 		if current.children == nil {
 			return false
 		}
@@ -68,7 +65,7 @@ func (d *DAWG) Prefixes(word string) []string {
 		if current.children == nil {
 			break
 		}
-		if next, ok := current.children[nodeValue(k)]; ok {
+		if next, ok := current.children[k]; ok {
 			current = next
 			if current.eow {
 				res = append(res, string(w[:i+1]))

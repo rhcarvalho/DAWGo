@@ -10,37 +10,37 @@ import (
 // the map keys are space-separated words to construct the DAWG.
 var dawgs = map[string]*DAWG{
 	"": &DAWG{&node{}},
-	"g": &DAWG{&node{children: map[nodeValue]*node{
+	"g": &DAWG{&node{children: map[rune]*node{
 		'g': &node{eow: true},
 	}}},
-	"go": &DAWG{&node{children: map[nodeValue]*node{
-		'g': &node{children: map[nodeValue]*node{
+	"go": &DAWG{&node{children: map[rune]*node{
+		'g': &node{children: map[rune]*node{
 			'o': &node{eow: true},
 		}},
 	}}},
-	"g go": &DAWG{&node{children: map[nodeValue]*node{
-		'g': &node{eow: true, children: map[nodeValue]*node{
+	"g go": &DAWG{&node{children: map[rune]*node{
+		'g': &node{eow: true, children: map[rune]*node{
 			'o': &node{eow: true},
 		}},
 	}}},
-	"g t": &DAWG{&node{children: map[nodeValue]*node{
+	"g t": &DAWG{&node{children: map[rune]*node{
 		'g': &node{eow: true},
 		't': &node{eow: true},
 	}}},
-	"go t": &DAWG{&node{children: map[nodeValue]*node{
-		'g': &node{children: map[nodeValue]*node{
+	"go t": &DAWG{&node{children: map[rune]*node{
+		'g': &node{children: map[rune]*node{
 			'o': &node{eow: true},
 		}},
 		't': &node{eow: true},
 	}}},
-	"语 语言 信 信息 处 处理": &DAWG{&node{children: map[nodeValue]*node{
-		'处': &node{eow: true, children: map[nodeValue]*node{
+	"语 语言 信 信息 处 处理": &DAWG{&node{children: map[rune]*node{
+		'处': &node{eow: true, children: map[rune]*node{
 			'理': &node{eow: true},
 		}},
-		'语': &node{eow: true, children: map[nodeValue]*node{
+		'语': &node{eow: true, children: map[rune]*node{
 			'言': &node{eow: true},
 		}},
-		'信': &node{eow: true, children: map[nodeValue]*node{
+		'信': &node{eow: true, children: map[rune]*node{
 			'息': &node{eow: true},
 		}},
 	}}},
@@ -190,20 +190,16 @@ func eowToString(eow bool) string {
 	return ""
 }
 
-func childrenToString(children map[nodeValue]*node) string {
+func childrenToString(children map[rune]*node) string {
 	if children == nil {
 		return ""
 	}
-	b := bytes.NewBufferString("children: map[nodeValue]*node{\n")
+	b := bytes.NewBufferString("children: map[rune]*node{\n")
 	for k, nd := range children {
 		fmt.Fprintf(b, "'%s': %v,\n", k, nd)
 	}
 	b.WriteByte('}')
 	return b.String()
-}
-
-func (nv nodeValue) String() string {
-	return string(nv)
 }
 
 // Helper functions for comparing DAWGs.
