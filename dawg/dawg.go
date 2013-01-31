@@ -67,10 +67,10 @@ func (d *DAWG) Prefixes(word string) []string {
 		}
 		if next, ok := current.children[k]; ok {
 			prefix = append(prefix, k)
-			current = next
-			if current.eow {
+			if next.eow {
 				res = append(res, string(prefix))
 			}
+			current = next
 		} else {
 			break
 		}
