@@ -33,6 +33,17 @@ var dawgs = map[string]*DAWG{
 		}},
 		't': &node{eow: true},
 	}}},
+	"语 语言 信 信息 处 处理": &DAWG{&node{children: map[nodeValue]*node{
+		'处': &node{eow: true, children: map[nodeValue]*node{
+			'理': &node{eow: true},
+		}},
+		'语': &node{eow: true, children: map[nodeValue]*node{
+			'言': &node{eow: true},
+		}},
+		'信': &node{eow: true, children: map[nodeValue]*node{
+			'息': &node{eow: true},
+		}},
+	}}},
 }
 
 func TestNew(t *testing.T) {
@@ -82,6 +93,18 @@ func TestContains(t *testing.T) {
 			{"golang", false},
 			{"tornado", false},
 			{"z", false},
+		}}, {
+		"语 语言 信 信息 处 处理", []query{
+			{"语", true},
+			{"信", true},
+			{"处", true},
+			{"言", false},
+			{"息", false},
+			{"理", false},
+			{"语言", true},
+			{"信息", true},
+			{"处理", true},
+			{"语言信息处理", false},
 		}},
 	}
 	for _, test := range tests {
@@ -125,6 +148,9 @@ func TestPrefixes(t *testing.T) {
 			{"", []string{}},
 			{"g", []string{}},
 			{"golang", []string{}},
+		}}, {
+		"语 语言 信 信息 处 处理", []query{
+			{"语言信息处理", []string{"语", "语言"}},
 		}},
 	}
 	for _, test := range tests {
