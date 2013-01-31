@@ -63,14 +63,15 @@ func (d *DAWG) Contains(word string) bool {
 func (d *DAWG) Prefixes(word string) []string {
 	current := d.root
 	res := []string{}
-	for i, k := range []nodeValue(word) {
+	w := []rune(word)
+	for i, k := range w {
 		if current.children == nil {
 			break
 		}
-		if next, ok := current.children[k]; ok {
+		if next, ok := current.children[nodeValue(k)]; ok {
 			current = next
 			if current.eow {
-				res = append(res, word[:i+1])
+				res = append(res, string(w[:i+1]))
 			}
 		} else {
 			break
