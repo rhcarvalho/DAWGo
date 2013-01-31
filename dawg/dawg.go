@@ -60,15 +60,16 @@ func (d *DAWG) Contains(word string) bool {
 func (d *DAWG) Prefixes(word string) []string {
 	current := d.root
 	res := []string{}
-	w := []rune(word)
-	for i, k := range w {
+	var prefix []rune
+	for _, k := range word {
 		if current.children == nil {
 			break
 		}
 		if next, ok := current.children[k]; ok {
+			prefix = append(prefix, k)
 			current = next
 			if current.eow {
-				res = append(res, string(w[:i+1]))
+				res = append(res, string(prefix))
 			}
 		} else {
 			break
