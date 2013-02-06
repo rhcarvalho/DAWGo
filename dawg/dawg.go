@@ -57,9 +57,8 @@ func (d *DAWG) Contains(word string) bool {
 }
 
 // Returns a list of words of this DAWG that are prefixes of the given word.
-func (d *DAWG) Prefixes(word string) []string {
+func (d *DAWG) Prefixes(word []rune) (prefixes [][]rune) {
 	current := d.root
-	res := []string{}
 	var prefix []rune
 	for _, k := range word {
 		if current.children == nil {
@@ -68,14 +67,22 @@ func (d *DAWG) Prefixes(word string) []string {
 		if next, ok := current.children[k]; ok {
 			prefix = append(prefix, k)
 			if next.eow {
-				res = append(res, string(prefix))
+				prefixes = append(prefixes, prefix)
 			}
 			current = next
 		} else {
 			break
 		}
 	}
-	return res
+	return
+}
+
+// PrefixesString is like Prefixes, except that it works with strings.
+func (d *DAWG) PrefixesString(word string) (prefixes []string) {
+	for _, prefix := range d.Prefixes([]rune(word)) {
+		prefixes = append(prefixes, string(prefix))
+	}
+	return
 }
 
 // Returns a channel filled with words of this DAWG that are prefixes of the given word.

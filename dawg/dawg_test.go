@@ -160,7 +160,7 @@ func TestPrefixes(t *testing.T) {
 			continue
 		}
 		for _, q := range test.queries {
-			if prefs := d.Prefixes(q.key); !slicesEqual(prefs, q.res) {
+			if prefs := d.PrefixesString(q.key); !slicesEqual(prefs, q.res) {
 				t.Errorf("DAWG(%#v).Prefixes(%#v) should be %v, got %v", test.words, q.key, q.res, prefs)
 			}
 		}
