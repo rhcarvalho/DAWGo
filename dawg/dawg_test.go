@@ -167,6 +167,31 @@ func TestPrefixes(t *testing.T) {
 	}
 }
 
+// Benchmarks
+func BenchmarkPrefixes(b *testing.B) {
+	inputWords := "语 语言 信 信息 处 处理"
+	d, ok := dawgs[inputWords]
+	if !ok {
+		b.Fatalf("Missing DAWG for words %#v", inputWords)
+	}
+	sentence := []rune("语言信息处理")
+	for i := 0; i < b.N; i++ {
+		d.Prefixes(sentence)
+	}
+}
+
+func BenchmarkPrefixesString(b *testing.B) {
+	inputWords := "语 语言 信 信息 处 处理"
+	d, ok := dawgs[inputWords]
+	if !ok {
+		b.Fatalf("Missing DAWG for words %#v", inputWords)
+	}
+	sentence := "语言信息处理"
+	for i := 0; i < b.N; i++ {
+		d.PrefixesString(sentence)
+	}
+}
+
 // Helper functions for printings DAWGs.
 func (d *DAWG) String() string {
 	return fmt.Sprintf("&DAWG{%v}", d.root)
