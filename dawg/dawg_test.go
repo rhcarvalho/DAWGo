@@ -221,7 +221,7 @@ func childrenToString(children map[rune]*node) string {
 	}
 	b := bytes.NewBufferString("children: map[rune]*node{\n")
 	for k, nd := range children {
-		fmt.Fprintf(b, "'%s': %v,\n", k, nd)
+		fmt.Fprintf(b, "'%q': %v,\n", k, nd)
 	}
 	b.WriteByte('}')
 	return b.String()
