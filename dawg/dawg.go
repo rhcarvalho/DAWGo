@@ -100,3 +100,80 @@ func (d *DAWG) Compact() int {
 }
 
 // BUG(rhcarvalho): Compact is not implemented yet.
+
+//====================================================================================
+
+// Returns raw DAWG content as bytes.
+//func (d *DAWG) ToBytes() []byte {
+// Not implemented
+/*
+   cdef stringstream stream
+   self.dct.Write(<ostream *> &stream)
+   cdef bytes res = stream.str()
+   return res
+*/
+//	return []byte{}
+//}
+
+// Loads DAWG from bytes ``data``.
+//func (d *DAWG) FromBytes(data []byte) {
+// Not implemented
+/*
+   cdef string s_data = data
+   cdef stringstream* stream = new stringstream(s_data)
+
+   try:
+       res = self.dct.Read(<istream *> stream)
+
+       if not res:
+           self.dct.Clear()
+           raise IOError("Invalid data format")
+
+       return self
+   finally:
+       del stream
+*/
+//}
+
+/*
+// Loads DAWG from a file-like object.
+func (d *DAWG) Read(f io.Reader) {
+	d.FromBytes(f.Read())
+}
+
+// Writes DAWG to a file-like object.
+func (d *DAWG) Write(f io.Writer) {
+	f.Write(d.ToBytes())
+}
+*/
+
+// Loads DAWG from a file.
+//func (d *DAWG) Load(path string) {
+// Not implemented
+/*
+   if isinstance(path, unicode):
+       path = path.encode(sys.getfilesystemencoding())
+
+   cdef ifstream stream
+   stream.open(path, iostream.binary)
+
+   res = self.dct.Read(<istream*> &stream)
+
+   stream.close()
+
+   if not res:
+       self.dct.Clear()
+       raise IOError("Invalid data format")
+
+   return self
+*/
+//}
+
+// Saves DAWG to a file.
+///func (d *DAWG) Save(path string) {
+// Not implemented
+/*
+   with open(path, 'wb') as f:
+       self.write(f)
+*/
+//}
